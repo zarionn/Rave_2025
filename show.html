@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rave 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #content {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Rave 2025</h1>
+
+    <div id="content">
+        <h2>Camp Theme: Overflow</h2>
+        <p>Get ready for the most electrifying experience of the year! The camp theme for Rave 2025 is <strong>Overflow</strong>. Stay tuned for more details.</p>
+    </div>
+
+    <script>
+        // Set the specific date and time (YYYY-MM-DD and HH:MM)
+        let unlockDate = "2025-03-17";  // The date when the content should be unlocked
+        let unlockTime = "00:30";       // The time when the content should be unlocked (HH:MM)
+
+        function checkUnlock() {
+            const now = new Date();
+            const currentDate = now.toISOString().split("T")[0];  // Get the current date in YYYY-MM-DD format
+            const currentTime = now.toTimeString().split(" ")[0].substring(0, 5);  // Get the current time in HH:MM format
+
+            const content = document.getElementById("content");
+
+            // Get stored unlock date and time
+            const savedUnlockDate = localStorage.getItem("unlockDate");
+            const savedUnlockTime = localStorage.getItem("unlockTime");
+
+            // Reset unlock status if the unlock date or time changes
+            if (savedUnlockDate !== unlockDate || savedUnlockTime !== unlockTime) {
+                localStorage.removeItem("unlockStatus");
+                localStorage.removeItem("unlockDate");
+                localStorage.removeItem("unlockTime");
+            }
+
+            // If the content is already unlocked, display it
+            if (localStorage.getItem("unlockStatus") === "unlocked") {
+                content.style.display = "block";
+                return;
+            }
+
+            // Check if the current date and time have passed the unlock date and time
+            if (currentDate > unlockDate || (currentDate === unlockDate && currentTime >= unlockTime)) {
+                localStorage.setItem("unlockDate", unlockDate); // Save the unlock date
+                localStorage.setItem("unlockTime", unlockTime); // Save the unlock time
+                localStorage.setItem("unlockStatus", "unlocked"); // Mark the content as unlocked
+                content.style.display = "block";
+            }
+        }
+
+        // Run the check on page load and every 1 second thereafter
+        checkUnlock();
+        setInterval(checkUnlock, 1000); // Check every second
+
+        // Function to update the unlock date and time dynamically
+        function updateUnlockDateTime(newDate, newTime) {
+            unlockDate = newDate;
+            unlockTime = newTime;
+            localStorage.removeItem("unlockStatus"); // Reset unlock status
+            localStorage.removeItem("unlockDate"); // Reset unlock date
+            localStorage.removeItem("unlockTime"); // Reset unlock time
+            checkUnlock(); // Re-check immediately
+        }
+
+        // Example: Update the unlock date and time dynamically
+        // You can call this function with a new date and time (e.g., "2025-03-16", "23:30")
+        // updateUnlockDateTime("2025-03-16", "23:30");
+    </script>
+
+</body>
+</html>
