@@ -42,11 +42,7 @@
 
             const content = document.getElementById("content");
 
-            // Debugging: Log current date and time
-            console.log("Current Date (Local):", currentDate);
-            console.log("Current Time (Local):", currentTime);
-            console.log("Unlock Date:", unlockDate);
-            console.log("Unlock Time:", unlockTime);
+            
 
             // Get stored unlock date and time
             const savedUnlockDate = localStorage.getItem("unlockDate");
@@ -66,10 +62,7 @@
                 return;
             }
 
-            // Debugging: Log comparison results
-            console.log("Is Current Date > Unlock Date?", currentDate > unlockDate);
-            console.log("Is Current Date === Unlock Date?", currentDate === unlockDate);
-            console.log("Is Current Time >= Unlock Time?", currentTime >= unlockTime);
+            
 
             // Check if the current date and time have passed the unlock date and time
             if (currentDate > unlockDate || (currentDate === unlockDate && currentTime >= unlockTime)) {
