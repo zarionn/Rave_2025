@@ -33,14 +33,20 @@
     <script>
         // Set the specific date and time (YYYY-MM-DD and HH:MM)
         let unlockDate = "2025-03-17";  // The date when the content should be unlocked
-        let unlockTime = "00:30";       // The time when the content should be unlocked (HH:MM)
+        let unlockTime = "00:51";       // The time when the content should be unlocked (HH:MM)
 
         function checkUnlock() {
             const now = new Date();
-            const currentDate = now.toISOString().split("T")[0];  // Get the current date in YYYY-MM-DD format
-            const currentTime = now.toTimeString().split(" ")[0].substring(0, 5);  // Get the current time in HH:MM format
+            const currentDate = now.toLocaleDateString("en-CA");  // Get the current date in YYYY-MM-DD format (local time)
+            const currentTime = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });  // Get the current time in HH:MM format (local time)
 
             const content = document.getElementById("content");
+
+            // Debugging: Log current date and time
+            console.log("Current Date (Local):", currentDate);
+            console.log("Current Time (Local):", currentTime);
+            console.log("Unlock Date:", unlockDate);
+            console.log("Unlock Time:", unlockTime);
 
             // Get stored unlock date and time
             const savedUnlockDate = localStorage.getItem("unlockDate");
@@ -55,16 +61,25 @@
 
             // If the content is already unlocked, display it
             if (localStorage.getItem("unlockStatus") === "unlocked") {
+                console.log("Content already unlocked.");
                 content.style.display = "block";
                 return;
             }
+
+            // Debugging: Log comparison results
+            console.log("Is Current Date > Unlock Date?", currentDate > unlockDate);
+            console.log("Is Current Date === Unlock Date?", currentDate === unlockDate);
+            console.log("Is Current Time >= Unlock Time?", currentTime >= unlockTime);
 
             // Check if the current date and time have passed the unlock date and time
             if (currentDate > unlockDate || (currentDate === unlockDate && currentTime >= unlockTime)) {
                 localStorage.setItem("unlockDate", unlockDate); // Save the unlock date
                 localStorage.setItem("unlockTime", unlockTime); // Save the unlock time
                 localStorage.setItem("unlockStatus", "unlocked"); // Mark the content as unlocked
+                console.log("Content unlocked.");
                 content.style.display = "block";
+            } else {
+                console.log("Content locked.");
             }
         }
 
