@@ -18,6 +18,17 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 1.5s forwards; /* Animation for fading in */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -42,8 +53,6 @@
 
             const content = document.getElementById("content");
 
-            
-
             // Get stored unlock date and time
             const savedUnlockDate = localStorage.getItem("unlockDate");
             const savedUnlockTime = localStorage.getItem("unlockTime");
@@ -61,8 +70,6 @@
                 content.style.display = "block";
                 return;
             }
-
-            
 
             // Check if the current date and time have passed the unlock date and time
             if (currentDate > unlockDate || (currentDate === unlockDate && currentTime >= unlockTime)) {
